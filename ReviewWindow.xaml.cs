@@ -127,8 +127,8 @@ public partial class ReviewWindow : Window
         {
             var paragraph = new Paragraph
             {
-                Margin = new Thickness(block.LeftIndentPoints, block.BeforeSpacingPoints, block.RightIndentPoints, block.AfterSpacingPoints + 8),
-                TextIndent = block.FirstLineIndentPoints
+                Margin = new Thickness(SafeMarginValue(block.LeftIndentPoints), SafeMarginValue(block.BeforeSpacingPoints), SafeMarginValue(block.RightIndentPoints), SafeMarginValue(block.AfterSpacingPoints + 8)),
+                TextIndent = SafeLayoutValue(block.FirstLineIndentPoints)
             };
             if (block.Runs.Count == 0)
             {
@@ -271,4 +271,12 @@ public partial class ReviewWindow : Window
             _ => ParseColor(value, Colors.Yellow)
         };
     }
+
+    private static double SafeLayoutValue(double value)
+    {
+        if (double.IsNaN(value) || double.IsInfinity(value)) return 0;
+        return Math.Clamp(value, -1000, 1000);
+    }
+
+    private static double SafeMarginValue(double value) => Math.Max(0, SafeLayoutValue(value));
 }
