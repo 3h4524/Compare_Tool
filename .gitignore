@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.lic
+Aspose.Words.dll
+CompareTool.settings.json
+publish/
+*.tmp
